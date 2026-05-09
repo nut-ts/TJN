@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริษัท TJN จำกัด</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 0; background: #f4f4f4; }
+        .navbar { background: #004085; padding: 1rem; text-align: center; }
+        .navbar a { color: white; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .content-area { max-width: 900px; margin: 20px auto; background: white; padding: 30px; border-radius: 8px; min-height: 300px; }
+        .error-msg { color: red; text-align: center; padding: 20px; border: 1px dashed red; }
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { border: 1px solid #ddd; padding: 10px; border-radius: 5px; }
+        .card img { width: 100%; height: 150px; object-fit: cover; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="?page=home">หน้าแรก</a>
+        <a href="?page=about">เกี่ยวกับเรา</a>
+        <a href="?page=articles">ผลงาน / บทความ</a>
+    </nav>
+
+    <div id="main-content" class="content-area">
+        <h2 id="loading-status" style="text-align:center;">กำลังโหลดข้อมูลจาก Google Sheet...</h2>
+    </div>
+
+    <script>
+        const csvPages = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRn3iXPtEEN14ibz01S4kNbOnDlxHgwa_LhXtAlpJNriZJCdUVgjTGH7l1RmPrnMBf6gQsRDPxlLUQu/pub?gid=0&single=true&output=csv';
+        const csvArticles = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRn3iXPtEEN14ibz01S4kNbOnDlxHgwa_LhXtAlpJNriZJCdUVgjTGH7l1RmPrnMBf6gQsRDPxlLUQu/pub?gid=1178591905&single=true&output=csv';
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = urlParams.get('page') || 'home';
+        const currentArticleId = urlParams.get('article_id');
+        const contentDiv = document.getElementById('main-content');
+
+        function showError(msg) {
+            contentDiv.innerHTML = `<div class="error-msg"><h3>เกิดข้อผิดพลาด</h3><p>${msg}</p></div>`;
+        }
+
+        // โหลดข้อมูลหน้าปกติ
+        if (!currentArticleId && currentPage !== 'articles') {
+            Papa.parse(csvPages, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    console.log("Pages Data:", results.data); // ดูข้อมูลใน Console (F12)
+                    const data = results.data;
+                    const pageData = data.find(item => item.PageID && item.PageID.trim().toLowerCase() === currentPage.toLowerCase());
+                    
+                    if (pageData) {
+                        contentDiv.innerHTML = `<h1>${pageData.Title}</h1><div>${pageData.Content}</div>`;
+                    } else {
+                        showError(`ไม่พบข้อมูลหน้าที่มี PageID ตรงกับ "${currentPage}" ใน Google Sheet`);
+                    }
+                },
+                error: function(err) { showError("ไม่สามารถดึงข้อมูลจาก Google Sheet ได้ ตรวจสอบการ Publish: " + err); }
+            });
+        } 
+        
+        // โหลดหน้ารวมบทความ
+        else if (currentPage === 'articles' && !currentArticleId) {
+            Papa.parse(csvArticles, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if(results.data.length === 0) { showError("ไม่มีข้อมูลบทความใน Sheet"); return; }
+                    let html = '<h1>ผลงานและบทความ</h1><div class="article-grid">';
+                    results.data.forEach(item => {
+                        if (item.ID) {
+                            html += `
+                                <div class="card">
+                                    <img src="${item.ImageURL || 'https://via.placeholder.com/150'}" alt="img">
+                                    <h3>${item.Title}</h3>
+                                    <p>${item.Content ? item.Content.substring(0, 60) : ''}...</p>
+                                    <a href="?article_id=${item.ID}">อ่านต่อ</a>
+                                </div>`;
+                        }
+                    });
+                    html += '</div>';
+                    contentDiv.innerHTML = html;
+                },
+                error: function(err) { showError("โหลดบทความไม่ได้: " + err); }
+            });
+        }
+
+        // โหลดหน้าบทความเดี่ยว
+        else if (currentArticleId) {
+            Papa.parse(csvArticles, {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const article = results.data.find(item => item.ID && item.ID.toString() === currentArticleId.toString());
+                    if (article) {
+                        contentDiv.innerHTML = `
+                            <h1>${article.Title}</h1>
+                            <p><small>${article.Date}</small></p>
+                            <img src="${article.ImageURL}" style="max-width:100%">
+                            <p>${article.Content}</p>
+                            <a href="?page=articles">กลับไปหน้าบทความ</a>`;
+                    } else {
+                        showError("ไม่พบบทความ ID: " + currentArticleId);
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
