@@ -3,128 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>บริษัท TJN จำกัด | รับเหมาก่อสร้างและออกแบบครบวงจร</title>
-    
+    <title>บริษัท TJN จำกัด | Engineering & Construction</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
-        /* --- ตั้งค่าสีและฟอนต์หลัก --- */
-        :root {
-            --primary-color: #004085; /* สีน้ำเงินองค์กร */
-            --secondary-color: #ffc107; /* สีเหลืองทอง */
-            --bg-color: #f8f9fa;
-            --text-color: #333;
-        }
-        body { 
-            font-family: 'Prompt', sans-serif; 
-            margin: 0; 
-            background: var(--bg-color); 
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        /* --- เมนูด้านบน (Navbar) --- */
-        .navbar { 
-            background: var(--primary-color); 
-            padding: 15px 50px; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .navbar .logo {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 600;
-            text-decoration: none;
-        }
+        :root { --primary-color: #004085; --secondary-color: #ffc107; --bg-color: #f8f9fa; --text-color: #333; }
+        body { font-family: 'Prompt', sans-serif; margin: 0; background: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        
+        .navbar { background: var(--primary-color); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .navbar .logo { color: white; font-size: 1.5rem; font-weight: 600; text-decoration: none; }
         .navbar .logo span { color: var(--secondary-color); }
-        .nav-links a { 
-            color: white; 
-            margin-left: 20px; 
-            text-decoration: none; 
-            font-weight: 400; 
-            transition: color 0.3s;
-        }
+        .nav-links a { color: white; margin-left: 20px; text-decoration: none; transition: 0.3s; }
         .nav-links a:hover { color: var(--secondary-color); }
 
-        /* --- แบนเนอร์หัวข้อ (Hero Section) --- */
-        .hero-banner {
-            background: linear-gradient(rgba(0, 64, 133, 0.8), rgba(0, 64, 133, 0.9)), url('https://images.unsplash.com/photo-1541888081622-48421c60f1b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .hero-banner h1 { margin: 0; font-size: 2.5rem; color: var(--secondary-color); }
+        .hero-banner { background: linear-gradient(rgba(0, 64, 133, 0.8), rgba(0, 64, 133, 0.9)), url('https://images.unsplash.com/photo-1541888081622-48421c60f1b2?auto=format&fit=crop&w=1920&q=80') center/cover; color: white; padding: 60px 20px; text-align: center; }
+        .hero-banner h1 { margin: 0; font-size: 2.2rem; color: var(--secondary-color); }
 
-        /* --- พื้นที่เนื้อหาหลัก --- */
-        .content-area { 
-            max-width: 1000px; 
-            margin: -30px auto 40px auto; 
-            background: white; 
-            padding: 40px; 
-            border-radius: 8px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
-            min-height: 400px; 
-            position: relative;
-            z-index: 10;
-        }
+        .content-area { max-width: 1000px; margin: -30px auto 40px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); min-height: 400px; position: relative; z-index: 10; }
 
-        /* --- เลย์เอาต์สำหรับหน้า "เกี่ยวกับเรา" --- */
-        .about-values-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
-        }
-        .value-box {
-            background: #fdfbf5;
-            border-top: 4px solid var(--secondary-color);
-            padding: 20px;
-            text-align: center;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .value-box h4 { color: var(--primary-color); margin-top: 0; font-size: 1.2rem;}
-
-        /* --- ตกแต่งตารางบทความ (Grid) --- */
-        .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { 
-            border: none; 
-            border-radius: 8px; 
-            overflow: hidden; 
-            background: #fff; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s;
-        }
-        .card:hover { transform: translateY(-5px); }
+        /* Grid Layout สำหรับหน้ารวม */
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { border-radius: 8px; overflow: hidden; background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: 0.3s; border-bottom: 3px solid transparent; }
+        .card:hover { transform: translateY(-5px); border-bottom: 3px solid var(--secondary-color); }
         .card img { width: 100%; height: 200px; object-fit: cover; }
         .card-body { padding: 20px; }
-        .card-body h3 { margin: 0 0 10px 0; color: var(--primary-color); font-size: 1.2rem; }
-        .read-more { 
-            display: inline-block; 
-            margin-top: 15px; 
-            padding: 8px 20px; 
-            background: var(--primary-color); 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 4px; 
-            font-size: 0.9rem;
-        }
-        .read-more:hover { background: var(--secondary-color); color: var(--primary-color); font-weight: bold;}
+        .card-body h3 { margin: 0 0 10px 0; color: var(--primary-color); font-size: 1.1rem; }
+        .btn-more { display: inline-block; margin-top: 10px; padding: 6px 15px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 4px; font-size: 0.85rem; }
 
-        /* --- ส่วนล่างสุด (Footer) --- */
-        .footer {
-            background: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 0.9rem;
-        }
+        /* ระบบ Gallery รูปภาพหลายรูป */
+        .gallery-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
+        .gallery-img { width: 100%; height: 150px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .gallery-img:hover { opacity: 0.8; }
 
-        .error-msg { color: red; text-align: center; padding: 20px; border: 1px dashed red; }
+        .footer { background: var(--primary-color); color: white; text-align: center; padding: 20px; font-size: 0.9rem; }
+        .error-msg { color: red; text-align: center; padding: 20px; }
     </style>
 </head>
 <body>
@@ -133,110 +45,131 @@
         <a href="?page=home" class="logo">TJN <span>Engineering</span></a>
         <div class="nav-links">
             <a href="?page=home">หน้าแรก</a>
+            <a href="?page=projects">ผลงาน</a>
+            <a href="?page=articles">บทความ</a>
             <a href="?page=about">เกี่ยวกับเรา</a>
-            <a href="?page=articles">ผลงาน / บทความ</a>
         </div>
     </nav>
 
-    <div class="hero-banner" id="hero-section">
+    <div class="hero-banner">
         <h1 id="hero-title">กำลังโหลด...</h1>
     </div>
 
     <div id="main-content" class="content-area">
-        <h2 style="text-align:center; color: #888;">กำลังเชื่อมต่อฐานข้อมูล...</h2>
+        <h2 style="text-align:center; color: #888;">กำลังโหลดข้อมูล...</h2>
     </div>
 
     <footer class="footer">
-        <p>&copy; 2026 บริษัท TJN จำกัด. สงวนลิขสิทธิ์.<br>โทร: 02-XXX-XXXX | อีเมล: contact@tjn.co.th</p>
+        <p>&copy; 2026 บริษัท TJN จำกัด. | โทร: 02-XXX-XXXX</p>
     </footer>
 
     <script>
+        // --- ใส่ลิงก์ CSV จากแต่ละแผ่นงาน (GIDs ต้องต่างกัน) ---
         const csvPages = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRn3iXPtEEN14ibz01S4kNbOnDlxHgwa_LhXtAlpJNriZJCdUVgjTGH7l1RmPrnMBf6gQsRDPxlLUQu/pub?gid=0&single=true&output=csv';
         const csvArticles = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRn3iXPtEEN14ibz01S4kNbOnDlxHgwa_LhXtAlpJNriZJCdUVgjTGH7l1RmPrnMBf6gQsRDPxlLUQu/pub?gid=1178591905&single=true&output=csv';
+        // *** แก้ไขบรรทัดนี้: ใส่ลิงก์แผ่นงาน Projects ของคุณ ***
+        const csvProjects = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRn3iXPtEEN14ibz01S4kNbOnDlxHgwa_LhXtAlpJNriZJCdUVgjTGH7l1RmPrnMBf6gQsRDPxlLUQu/pub?gid=749680144&single=true&output=csv'; 
 
         const urlParams = new URLSearchParams(window.location.search);
         const currentPage = urlParams.get('page') || 'home';
         const currentArticleId = urlParams.get('article_id');
+        const currentProjectId = urlParams.get('project_id');
         
         const contentDiv = document.getElementById('main-content');
         const heroTitle = document.getElementById('hero-title');
 
-        function showError(msg) {
-            contentDiv.innerHTML = `<div class="error-msg"><h3>เกิดข้อผิดพลาด</h3><p>${msg}</p></div>`;
-            heroTitle.innerText = "ข้อผิดพลาด";
-        }
-
-        // โหลดข้อมูลหน้าปกติ
-        if (!currentArticleId && currentPage !== 'articles') {
-            Papa.parse(csvPages, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const data = results.data;
-                    const pageData = data.find(item => item.PageID && item.PageID.trim().toLowerCase() === currentPage.toLowerCase());
-                    
-                    if (pageData) {
-                        heroTitle.innerText = pageData.Title; // อัปเดตแบนเนอร์
-                        contentDiv.innerHTML = `<div>${pageData.Content}</div>`;
-                    } else {
-                        showError(`ไม่พบข้อมูลหน้าที่มี PageID ตรงกับ "${currentPage}" ใน Google Sheet`);
-                    }
-                },
-                error: function(err) { showError("ไม่สามารถดึงข้อมูลได้: " + err); }
-            });
-        } 
-        
-        // โหลดหน้ารวมบทความ
-        else if (currentPage === 'articles' && !currentArticleId) {
-            heroTitle.innerText = "ผลงานและบทความของเรา";
+        // ฟังก์ชันช่วยจัดการหน้าบทความ (Articles)
+        function loadArticles() {
+            heroTitle.innerText = "บทความสาระน่ารู้";
             Papa.parse(csvArticles, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    if(results.data.length === 0) { showError("ไม่มีข้อมูลบทความใน Sheet"); return; }
-                    let html = '<div class="article-grid">';
+                download: true, header: true, complete: function(results) {
+                    let html = '<div class="item-grid">';
                     results.data.forEach(item => {
-                        if (item.ID) {
-                            html += `
-                                <div class="card">
-                                    <img src="${item.ImageURL || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="img">
-                                    <div class="card-body">
-                                        <h3>${item.Title}</h3>
-                                        <p style="color:#777; font-size:0.85rem; margin-bottom:10px;">${item.Date}</p>
-                                        <p>${item.Content ? item.Content.substring(0, 70) : ''}...</p>
-                                        <a href="?article_id=${item.ID}" class="read-more">อ่านต่อ</a>
-                                    </div>
-                                </div>`;
-                        }
+                        if(item.ID) html += renderCard(item, 'article_id');
                     });
-                    html += '</div>';
-                    contentDiv.innerHTML = html;
-                },
-                error: function(err) { showError("โหลดบทความไม่ได้: " + err); }
+                    contentDiv.innerHTML = html + '</div>';
+                }
             });
         }
 
-        // โหลดหน้าบทความเดี่ยว
-        else if (currentArticleId) {
-            Papa.parse(csvArticles, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const article = results.data.find(item => item.ID && item.ID.toString() === currentArticleId.toString());
-                    if (article) {
-                        heroTitle.innerText = article.Title;
-                        contentDiv.innerHTML = `
-                            <p style="color:#777;">อัปเดตเมื่อ: ${article.Date}</p>
-                            <img src="${article.ImageURL}" style="width:100%; max-height:400px; object-fit:cover; border-radius:8px; margin-bottom:20px;">
-                            <div style="line-height: 1.8; font-size: 1.05rem;">${article.Content}</div>
-                            <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
-                            <a href="?page=articles" style="color:var(--primary-color); text-decoration:none; font-weight:bold;">← กลับไปหน้ารวมผลงาน</a>`;
-                    } else {
-                        showError("ไม่พบบทความ ID: " + currentArticleId);
+        // ฟังก์ชันช่วยจัดการหน้าผลงาน (Projects)
+        function loadProjects() {
+            heroTitle.innerText = "ผลงานที่ผ่านมา";
+            Papa.parse(csvProjects, {
+                download: true, header: true, complete: function(results) {
+                    let html = '<div class="item-grid">';
+                    results.data.forEach(item => {
+                        if(item.ID) html += renderCard(item, 'project_id', item.MainImage);
+                    });
+                    contentDiv.innerHTML = html + '</div>';
+                }
+            });
+        }
+
+        // ฟังก์ชันสร้าง Card
+        function renderCard(item, paramName, imgUrl) {
+            const img = imgUrl || item.ImageURL || 'https://via.placeholder.com/300x200';
+            return `
+                <div class="card">
+                    <img src="${img}" alt="img">
+                    <div class="card-body">
+                        <h3>${item.Title}</h3>
+                        <p style="font-size:0.8rem; color:#666;">${item.Date}</p>
+                        <a href="?${paramName}=${item.ID}" class="btn-more">ดูรายละเอียด</a>
+                    </div>
+                </div>`;
+        }
+
+        // แสดงรายละเอียดผลงาน (รองรับหลายรูป)
+        function loadProjectDetail(id) {
+            Papa.parse(csvProjects, {
+                download: true, header: true, complete: function(results) {
+                    const p = results.data.find(x => x.ID == id);
+                    if(!p) return;
+                    heroTitle.innerText = p.Title;
+                    let galleryHtml = '';
+                    if(p.Gallery) {
+                        const images = p.Gallery.split(','); // แยกลิงก์ด้วยคอมม่า
+                        galleryHtml = '<div class="gallery-container">';
+                        images.forEach(img => {
+                            galleryHtml += `<img src="${img.trim()}" class="gallery-img" onclick="window.open('${img.trim()}')">`;
+                        });
+                        galleryHtml += '</div>';
                     }
+                    contentDiv.innerHTML = `
+                        <p>วันที่: ${p.Date}</p>
+                        <img src="${p.MainImage}" style="width:100%; border-radius:8px;">
+                        ${galleryHtml}
+                        <div style="margin-top:20px;">${p.Content}</div>
+                        <br><a href="?page=projects">← กลับไปหน้าผลงาน</a>`;
+                }
+            });
+        }
+
+        // --- ระบบ Routing ---
+        if (currentProjectId) {
+            loadProjectDetail(currentProjectId);
+        } else if (currentArticleId) {
+            // โหลดรายละเอียดบทความ (เหมือนเดิม)
+            Papa.parse(csvArticles, {
+                download: true, header: true, complete: function(results) {
+                    const a = results.data.find(x => x.ID == currentArticleId);
+                    if(a) {
+                        heroTitle.innerText = a.Title;
+                        contentDiv.innerHTML = `<img src="${a.ImageURL}" style="width:100%; border-radius:8px;"><p>${a.Content}</p><a href="?page=articles">← กลับ</a>`;
+                    }
+                }
+            });
+        } else if (currentPage === 'projects') {
+            loadProjects();
+        } else if (currentPage === 'articles') {
+            loadArticles();
+        } else {
+            // หน้า Pages ทั่วไป (Home, About)
+            Papa.parse(csvPages, {
+                download: true, header: true, complete: function(results) {
+                    const page = results.data.find(x => x.PageID == currentPage);
+                    if(page) { heroTitle.innerText = page.Title; contentDiv.innerHTML = page.Content; }
                 }
             });
         }
