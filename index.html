@@ -15,13 +15,22 @@
             --secondary-color: #ffc107; /* สีเหลืองทอง */
             --bg-color: #f8f9fa;
             --text-color: #333;
+            /* 🔴 เปลี่ยนลิงก์รูปพื้นหลังตรงนี้ หรืออ้างอิงเป็น images/bg.jpg ถ้าอัปโหลดไว้กับโฟลเดอร์ตัวเอง */
+            --bg-image: url('images/bg.jpg');
         }
+        
         body { 
             font-family: 'Prompt', sans-serif; 
             margin: 0; 
-            background: var(--bg-color); 
             color: var(--text-color);
             line-height: 1.6;
+            
+            /* --- ตั้งค่ารูปพื้นหลัง --- */
+            /* ใส่สีขาวโปร่งแสงทับรูปเพื่อให้อ่านข้อความได้ง่าย */
+            background: linear-gradient(rgba(248, 249, 250, 0.85), rgba(248, 249, 250, 0.85)), var(--bg-image);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* เลื่อนหน้าจอแล้วรูปอยู่กับที่ */
         }
 
         /* --- เมนูด้านบน (Navbar) --- */
