@@ -9,13 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- ตั้งค่าสีและฟอนต์หลัก (คงแบบเดิมที่สวยงามไว้) --- */
+        /* --- ตั้งค่าสีและฟอนต์หลัก --- */
         :root {
             --primary-color: #004085; /* สีน้ำเงินองค์กร */
             --secondary-color: #ffc107; /* สีเหลืองทอง */
-            --bg-color: #f8f9fa;
             --text-color: #333;
-            /* 🔴 เปลี่ยนลิงก์รูปพื้นหลังตรงนี้ หรืออ้างอิงเป็น images/bg.jpg ถ้าอัปโหลดไว้กับโฟลเดอร์ตัวเอง */
+            
+            /* 🔴 เปลี่ยนรูปลิงก์พื้นหลังตรงนี้ (ตอนนี้ใส่รูปลายเส้นพิมพ์เขียว) */
             --bg-image: url('images_bg/bg.jpg');
         }
         
@@ -25,9 +25,9 @@
             color: var(--text-color);
             line-height: 1.6;
             
-            /* --- ตั้งค่ารูปพื้นหลัง --- */
-            /* ใส่สีขาวโปร่งแสงทับรูปเพื่อให้อ่านข้อความได้ง่าย */
-            background: linear-gradient(rgba(255, 55, 255, 0.95), rgba(255, 255, 255, 0.95)), var(--bg-image);
+            /* --- ตั้งค่ารูปพื้นหลังแบบ "ชัดเจน" --- */
+            /* ✅ นำ linear-gradient (Overlay) ออก เพื่อให้รูปชัดเจน 100% */
+            background-image: var(--bg-image);
             background-size: cover;
             background-position: center;
             background-attachment: fixed; /* เลื่อนหน้าจอแล้วรูปอยู่กับที่ */
@@ -71,10 +71,13 @@
         .content-area { 
             max-width: 1000px; 
             margin: -30px auto 40px auto; 
-            background: white; 
+            
+            /* ✅ เพิ่มพื้นหลังสีขาวโปร่งแสง (95%) ให้กล่องเนื้อหาเพื่อให้อ่านง่าย */
+            background: rgba(255, 255, 255, 0.95); 
+            
             padding: 40px; 
             border-radius: 8px; 
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* เพิ่มเงาให้ดูมีมิติ */
             min-height: 400px; 
             position: relative;
             z-index: 10;
@@ -197,7 +200,7 @@
             heroTitle.innerText = "ข้อผิดพลาด";
         }
 
-        // ฟังก์ชันสร้าง Card (ใช้ซ้ำได้ทั้งบทความและผลงาน)
+        // ฟังก์ชันสร้าง Card
         function renderCard(item, paramName, imgUrl) {
             const img = imgUrl || item.ImageURL || 'https://via.placeholder.com/300x200?text=No+Image';
             const shortContent = item.Content ? item.Content.substring(0, 70) + '...' : '';
@@ -213,7 +216,7 @@
                 </div>`;
         }
 
-        // 1. โหลดหน้าผลงานแบบเจาะจง (มี Gallery)
+        // --- ระบบ Routing ---
         if (currentProjectId) {
             Papa.parse(csvProjects, {
                 download: true, header: true, skipEmptyLines: true, complete: function(results) {
@@ -222,7 +225,6 @@
                     
                     heroTitle.innerText = p.Title;
                     
-                    // สร้าง Gallery รูปภาพ
                     let galleryHtml = '';
                     if(p.Gallery) {
                         const images = p.Gallery.split(',');
@@ -245,8 +247,6 @@
                 }, error: function(err) { showError("โหลดข้อมูลไม่ได้: " + err); }
             });
         } 
-        
-        // 2. โหลดหน้าบทความแบบเจาะจง
         else if (currentArticleId) {
             Papa.parse(csvArticles, {
                 download: true, header: true, skipEmptyLines: true, complete: function(results) {
@@ -263,8 +263,6 @@
                 }, error: function(err) { showError("โหลดข้อมูลไม่ได้: " + err); }
             });
         } 
-        
-        // 3. โหลดหน้ารวมผลงาน (Projects List)
         else if (currentPage === 'projects') {
             heroTitle.innerText = "ผลงานที่ผ่านมาของเรา";
             Papa.parse(csvProjects, {
@@ -278,8 +276,6 @@
                 }, error: function(err) { showError("โหลดผลงานไม่ได้: " + err); }
             });
         } 
-        
-        // 4. โหลดหน้ารวมบทความ (Articles List)
         else if (currentPage === 'articles') {
             heroTitle.innerText = "บทความและสาระน่ารู้";
             Papa.parse(csvArticles, {
@@ -293,8 +289,6 @@
                 }, error: function(err) { showError("โหลดบทความไม่ได้: " + err); }
             });
         } 
-        
-        // 5. โหลดหน้าทั่วไป (Home, About)
         else {
             Papa.parse(csvPages, {
                 download: true, header: true, skipEmptyLines: true, complete: function(results) {
